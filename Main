@@ -1,0 +1,22 @@
+package com.example.ram.blackstatusbar;
+
+import android.graphics.Color;
+
+import de.robv.android.xposed.IXposedHookInitPackageResources;
+import de.robv.android.xposed.callbacks.XC_InitPackageResources;
+
+public class Main implements IXposedHookInitPackageResources {
+
+    @Override
+    public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) throws Throwable {
+        // replacements only for SystemUI
+        if (!resparam.packageName.equals("com.android.systemui"))
+            return;
+
+        // different ways to specify the resources to be replaced
+        resparam.res.setReplacement("com.android.systemui", "color",
+                "system_bar_background_transparent", Color.BLACK);
+        resparam.res.setReplacement("com.android.systemui", "color",
+                "system_bar_background_semi_transparent", Color.BLACK);
+    }
+}
